@@ -15,6 +15,7 @@ import ResourceMapPage from "./pages/NGO/ResourceMapPage";
 import DashboardPage from "./pages/NGO/DashboardPage";
 import DisasterDetectionPage from "./pages/DisasterDetectionPage";
 import NotFound from "./pages/NotFound";
+import Index from "./pages/Index";
 
 const queryClient = new QueryClient();
 
@@ -22,11 +23,10 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <AppProvider>
-        <Toaster />
-        <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<Index />} />
+            <Route path="/home" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/requests/new" element={<NewRequestPage />} />
             <Route path="/requests" element={<RequestsPage />} />
@@ -36,6 +36,8 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
+        <Toaster />
+        <Sonner />
       </AppProvider>
     </TooltipProvider>
   </QueryClientProvider>
