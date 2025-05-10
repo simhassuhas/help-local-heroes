@@ -3,8 +3,31 @@ import React from "react";
 import { Navigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, AlertCircle, MapPin, Clock, Phone } from "lucide-react";
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+
+// Set mapbox token - in a real app, this would be from environment variables
+mapboxgl.accessToken = 'pk.eyJ1IjoiZGVtb3VzZXIxMjMiLCJhIjoiY2xzdXc0a2x0MHBiYTJrcGJ0NnhvNnNndiJ9.LBeeV5B7_UXRfY-l1Zez7A';
 
 const Index = () => {
+  const mapContainer = React.useRef<HTMLDivElement>(null);
+  const map = React.useRef<mapboxgl.Map | null>(null);
+  
+  React.useEffect(() => {
+    if (map.current || !mapContainer.current) return;
+    
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/dark-v11',
+      center: [-96, 37.8], // Center on US
+      zoom: 3
+    });
+    
+    return () => {
+      map.current?.remove();
+    };
+  }, []);
+  
   return (
     <div className="min-h-screen flex flex-col">
       {/* Emergency Header Banner */}
@@ -17,14 +40,16 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="bg-destructive/90 text-destructive-foreground py-16 md:py-20 flex-grow">
-        <div className="container mx-auto px-4">
+      {/* Hero Section with Map Background */}
+      <section className="relative text-destructive-foreground py-16 md:py-20 flex-grow">
+        <div ref={mapContainer} className="absolute inset-0 z-0" />
+        <div className="absolute inset-0 z-10 bg-black/50" /> {/* Dark overlay for text readability */}
+        <div className="container mx-auto px-4 relative z-20">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in text-white">
               Emergency Resource Hub
             </h1>
-            <p className="text-lg md:text-xl mb-8 opacity-90">
+            <p className="text-lg md:text-xl mb-8 text-white/90">
               Quick access to essential resources during crisis situations. Request food, shelter, or healthcare assistance immediately.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -36,6 +61,11 @@ const Index = () => {
               <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 w-full sm:w-auto" asChild>
                 <Link to="/login">
                   Organization / NGO Login
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 w-full sm:w-auto" asChild>
+                <Link to="/disasters">
+                  Disaster Detection
                 </Link>
               </Button>
             </div>

@@ -13,6 +13,7 @@ import NewRequestPage from "./pages/NewRequestPage";
 import RequestsPage from "./pages/RequestsPage";
 import ResourceMapPage from "./pages/NGO/ResourceMapPage";
 import DashboardPage from "./pages/NGO/DashboardPage";
+import DisasterDetectionPage from "./pages/DisasterDetectionPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/requests" element={<RequestsPage />} />
             <Route path="/ngo/map" element={<ResourceMapPage />} />
             <Route path="/ngo/dashboard" element={<DashboardPage />} />
+            <Route path="/disasters" element={<DisasterDetectionPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
